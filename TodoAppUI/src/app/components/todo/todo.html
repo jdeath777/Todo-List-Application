@@ -1,0 +1,50 @@
+<div class="todo-container">
+  <div class="todo-app">
+    <h2>My To Do List</h2>
+
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+
+    <form class="todo-form" (ngSubmit)="addTodo()" novalidate>
+      <input
+        type="text"
+        [(ngModel)]="newTodo"
+        name="todo"
+        placeholder="Add a new todo"
+      />
+
+      <button
+        type="submit"
+        [disabled]="addingTodo || !newTodo.trim()"
+      >
+        {{ addingTodo ? 'Adding...' : 'Add' }}
+      </button>
+    </form>
+
+    <ul class="todo-list">
+      <li *ngFor="let todo of todos$ | async; trackBy: trackById">
+        <input
+          type="checkbox"
+          [checked]="todo.isCompleted"
+          (change)="toggle(todo)"
+        />
+
+        <ng-container *ngIf="editingId !== todo.id; else editMode">
+          <span [class.completed]="todo.isCompleted">
+            {{ todo.title }}
+          </span>
+        </ng-container>
+
+        <ng-template #editMode>
+          <input [(ngModel)]="editTitle" />
+          <button (click)="saveEdit(todo)">Save</button>
+          <button (click)="cancelEdit()">Cancel</button>
+        </ng-template>
+
+        <div class="todo-actions">
+          <button (click)="startEdit(todo)">Edit</button>
+          <button (click)="deleteTodo(todo.id)">✕</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+
+# -------- .NET --------
+bin/
+obj/
+.vs/
+
+# -------- Node / Angular --------
+node_modules/
+dist/
